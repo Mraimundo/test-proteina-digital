@@ -1,13 +1,13 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 
-import Dashboard from "../pages/Dashboard";
-import Repository from "../pages/Repository";
+import FeedRepositorie from "../pages/FeedRepositorie";
+import LikeRepositorie from "../pages/LikeRepositorie";
 
 const RoutePages: React.FC = () => (
   <Routes>
-    <Route path="/" element={<Dashboard />} />
-    <Route path="/repository" element={<Repository />} />
+    <Route path="/" element={<FeedRepositorie />} />
+    <Route path="/like-repositories" element={<LikeRepositorie />} />
   </Routes>
 );
 

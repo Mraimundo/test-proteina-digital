@@ -1,6 +1,6 @@
 import React from "react";
 
-const Repository: React.FC = () => {
+const LikeRepositorie: React.FC = () => {
   return (
     <div>
       <h1>Repository</h1>
@@ -8,4 +8,4 @@ const Repository: React.FC = () => {
   );
 };
 
-export default Repository;
+export default LikeRepositorie;
