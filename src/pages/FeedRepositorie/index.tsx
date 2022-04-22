@@ -1,38 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { Flex, Spinner, Text } from "@chakra-ui/react";
+import { Flex, Spinner } from "@chakra-ui/react";
 import { MdFavorite } from "react-icons/md";
-
-import { Repos, useRepos } from "../../services/hooks/useRepos";
 
 import logoImg from "../../assets/logo.svg";
 
 import * as S from "./styles";
 
+import { useRepository } from "../../hooks/repository";
+
 const FeedRepositorie: React.FC = () => {
-  const [favoritButton, setFavoritButton] = useState(false);
-
-  const { data, isLoading, isFetching, error } = useRepos();
-  const [repositorie, setRepositorie] = useState<Repos[] | undefined>(data);
-
-  useEffect(() => {
-    setRepositorie(data);
-  }, [data]);
-
-  function hanleLike(repo: any) {
-    setFavoritButton(true);
-    repositorie?.filter((item) => {
-      if (item.id === repo.id) {
-        return (repo.like = true);
-      }
-    });
-  }
-
-  // function hanleUnlike(repo: any) {
-  //   console.log({ ...repo, like: false });
-  // }
-
-  // console.log(data);
+  const { repositories, like, unlike } = useRepository();
 
   return (
     <S.Container>
@@ -45,22 +23,18 @@ const FeedRepositorie: React.FC = () => {
       </header>
       <S.Title>
         Explore repositórios no Github
-        {!isLoading && isFetching && (
+        {!repositories.length && (
           <Spinner size="sm" color="gray.500" ml="4"></Spinner>
         )}
       </S.Title>
 
-      {isLoading ? (
+      {!repositories.length ? (
         <Flex justify="center">
           <Spinner />
         </Flex>
-      ) : error ? (
-        <Flex justify="center">
-          <Text>Falha ao obter os repositórios</Text>
-        </Flex>
       ) : (
         <S.Repositories>
-          {repositorie?.map((repos) => (
+          {repositories?.map((repos) => (
             <section key={repos.id}>
               <img src={repos.owner.avatar_url} alt={repos.owner.login} />
               <div>
@@ -69,11 +43,12 @@ const FeedRepositorie: React.FC = () => {
                 <span>{repos.owner.url}</span>
               </div>
 
-              <button onClick={() => hanleLike(repos)}>
-                <MdFavorite
-                  size={24}
-                  color={favoritButton ? "red" : "#3a3a3a"}
-                />
+              <button
+                onClick={() =>
+                  repos.like ? unlike(Number(repos.id)) : like(Number(repos.id))
+                }
+              >
+                <MdFavorite size={24} color={repos.like ? "red" : "#3a3a3a"} />
               </button>
             </section>
           ))}
