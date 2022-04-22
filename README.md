@@ -31,7 +31,7 @@ O **README** mostra como executar as aplicação.
 
 ```bash
 # Clone este repositório
-$ git clone https://github.com/Mraimundo/teste-proteina-digital.git
+$ git clone https://github.com/Mraimundo/test-proteina-digital.git
 
 # Acesse a pasta do projeto no seu terminal/cmd
 $ cd github-explorer-test
