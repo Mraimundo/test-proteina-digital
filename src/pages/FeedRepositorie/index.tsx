@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Flex, Spinner, Text } from "@chakra-ui/react";
 import { MdFavorite } from "react-icons/md";
 
-import { useRepos } from "../../services/hooks/useRepos";
+import { Repos, useRepos } from "../../services/hooks/useRepos";
 
 import logoImg from "../../assets/logo.svg";
 
@@ -13,6 +13,26 @@ const FeedRepositorie: React.FC = () => {
   const [favoritButton, setFavoritButton] = useState(false);
 
   const { data, isLoading, isFetching, error } = useRepos();
+  const [repositorie, setRepositorie] = useState<Repos[] | undefined>(data);
+
+  useEffect(() => {
+    setRepositorie(data);
+  }, [data]);
+
+  function hanleLike(repo: any) {
+    setFavoritButton(true);
+    repositorie?.filter((item) => {
+      if (item.id === repo.id) {
+        return (repo.like = true);
+      }
+    });
+  }
+
+  // function hanleUnlike(repo: any) {
+  //   console.log({ ...repo, like: false });
+  // }
+
+  // console.log(data);
 
   return (
     <S.Container>
@@ -40,7 +60,7 @@ const FeedRepositorie: React.FC = () => {
         </Flex>
       ) : (
         <S.Repositories>
-          {data?.map((repos) => (
+          {repositorie?.map((repos) => (
             <section key={repos.id}>
               <img src={repos.owner.avatar_url} alt={repos.owner.login} />
               <div>
@@ -49,8 +69,11 @@ const FeedRepositorie: React.FC = () => {
                 <span>{repos.owner.url}</span>
               </div>
 
-              <button onClick={() => setFavoritButton(!favoritButton)}>
-                <MdFavorite size={24} />
+              <button onClick={() => hanleLike(repos)}>
+                <MdFavorite
+                  size={24}
+                  color={favoritButton ? "red" : "#3a3a3a"}
+                />
               </button>
             </section>
           ))}

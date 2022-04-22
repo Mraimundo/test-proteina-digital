@@ -1,10 +1,11 @@
 import { useQuery } from "react-query";
 import { api } from "../api";
 
-type Repos = {
+export type Repos = {
   id: string;
   full_name: string;
   description: string;
+  like: boolean;
   owner: {
     login: string;
     avatar_url: string;
